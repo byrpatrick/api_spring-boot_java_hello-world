@@ -102,6 +102,12 @@ Replace the value of `http://path_to_your_api/` with your protected API endpoint
 
 You can try out any of our full stack demos to see the client-server Auth0 workflow in action using your preferred front-end and back-end technologies.
 
+## Test the Admin Endpoint
+
+The `/admin` endpoint requires the access token to contain the `read:admin-messages` permission. The best way to simulate that client-server secured request is to use any of the Hello World client demo apps to log in as a user that has that permission.
+
+You can use the Auth0 Dashboard to create an `admin` role and assign it the`read:admin-messages` permission. Then, you can assign the `admin` role to any user that you want to access the `/admin` endpoint.
+
 ## API Endpoints
 
 ### 🔓 Get public message
@@ -122,9 +128,9 @@ Status: 200 OK
 }
 ```
 
-### 🔓 Get protected message
+> 🔐 Protected Endpoints: These endpoints require the request to include an access token issued by Auth0 in the authorization header.
 
-> You need to protect this endpoint using Auth0.
+### 🔐 Get protected message
 
 ```bash
 GET /api/messages/protected
@@ -142,9 +148,9 @@ Status: 200 OK
 }
 ```
 
-### 🔓 Get admin message
+### 🔐 Get admin message
 
-> You need to protect this endpoint using Auth0 and Role-Based Access Control (RBAC).
+> Requires the user to have the `read:admin-messages` permission.
 
 ```bash
 GET /api/messages/admin

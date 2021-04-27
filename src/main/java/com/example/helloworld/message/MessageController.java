@@ -1,5 +1,6 @@
 package com.example.helloworld.message;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class MessageController {
   }
 
   @GetMapping("/admin")
+  @PreAuthorize("hasAuthority('read:admin-messages')")
   public Message getAdminMessage() {
     return service.getAdminMessage();
   }
