@@ -1,15 +1,8 @@
 package com.example.helloworld.message;
 
+import lombok.Value;
+
+@Value
 public class Message {
-  private final String message;
-
-  public Message(
-      String message
-  ) {
-    this.message = message;
-  }
-
-  public String getMessage() {
-    return message;
-  }
+    String message;
 }
