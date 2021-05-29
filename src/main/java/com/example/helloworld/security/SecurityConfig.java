@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, "/api/messages/public").permitAll()
-                .anyRequest()
+                .antMatchers("/api/messages/*")
                 .authenticated()
                 .and()
                 .cors()
@@ -56,8 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2ResourceServer()
                 .jwt()
                 .decoder(jwtDecoder())
-                .jwtAuthenticationConverter(jwtAuthenticationConverter())
-        ;
+                .jwtAuthenticationConverter(jwtAuthenticationConverter());
     }
 
     CorsConfigurationSource corsConfigurationSource() {
