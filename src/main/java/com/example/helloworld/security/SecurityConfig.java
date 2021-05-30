@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, "/api/messages/public").permitAll()
-                .antMatchers("/api/messages/*")
+                .antMatchers("/api/messages/**")
                 .authenticated()
                 .and()
                 .cors()
@@ -44,12 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     try (PrintWriter writer = response.getWriter()) {
-                        writer.print(new ObjectMapper().writeValueAsString(new Message("trying to access secured endpoint with an unauthenticated user")));
-                    }
-                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    try (PrintWriter writer = response.getWriter()) {
-                        writer.print(new ObjectMapper().writeValueAsString(new Message("access denied")));
+                        writer.print(new ObjectMapper().writeValueAsString(new Message("No authorization token was found")));
                     }
                 })
                 .and()

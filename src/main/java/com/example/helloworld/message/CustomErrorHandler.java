@@ -3,6 +3,7 @@ package com.example.helloworld.message;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,16 +26,26 @@ public class CustomErrorHandler extends ResponseEntityExceptionHandler {
         Map<String, String> response = new HashMap<>();
 
         String errorStatus = "Internal server error occurred" + getExceptionMessage(e);
-        response.put("status", errorStatus);
+        response.put("message", errorStatus);
 
         return response;
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    Map<String, String> handleAccessDeniedError(AccessDeniedException e) {
+        Map<String, String> response = new HashMap<>();
+
+        response.put("message", "Insufficent scopes.");
+
+        return response;
+    }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         HashMap<String, String> response = new HashMap<>();
-        response.put("message", "no handler available for given url");
+        response.put("message", "Not Found");
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 
