@@ -1,0 +1,7 @@
+.git/
+build
+.gradle
+Makefile
+*.swp
+*.md
+.gitignore
